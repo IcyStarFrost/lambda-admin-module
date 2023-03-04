@@ -745,6 +745,16 @@ hook.Add( "LambdaOnInitialize", "lambdaadmins_init", Initialize )
 
 if CLIENT then
     local DrawText = draw.DrawText
+
+    LambdaCreateProfileSetting( "DCheckBox", "l_admin", "Admin Module", function( pnl, parent )
+        local lbl = LAMBDAPANELS:CreateLabel( "[Is Admin]\nIf enabled, this profile will always be a admin regardless of the admin limit", parent, TOP )
+        lbl:SetWrap( true )
+        lbl:SetSize( 100, 70 )
+        lbl:Dock( TOP ) 
+        pnl:SetZPos( 100 )
+    end )
+    
+
     hook.Add( "HUDPaint", "lambdaplayers_admin_hud", function()
         local tr = LocalPlayer():GetEyeTrace()
         local ent = tr.Entity
