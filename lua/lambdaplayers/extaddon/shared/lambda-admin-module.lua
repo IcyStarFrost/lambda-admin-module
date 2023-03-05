@@ -31,6 +31,8 @@ local jailpositions = {
 }
 
 local BannedLambdas = {}
+
+-- baddy bad
 local bannedwords = {
     "fuck",
     "shit",
@@ -41,10 +43,17 @@ local bannedwords = {
     "dick",
     "piss",
     "pussy",
-    "owo", -- :troll:
-    "uwu",
-    ">w<",
+    "cunt"
 }
+
+if file.Exists( "lambdaplayers/admin-bannedwords.json", "DATA" ) then
+    local addon = LAMBDAFS:ReadFile( "lambdaplayers/admin-bannedwords.txt", "json" )
+    if addon then
+        for k, word in ipairs( addon ) do 
+            bannedwords[ #bannedwords + 1 ] = word
+        end
+    end
+end
 
 
 CreateLambdaConvar( "lambdaplayers_lambdaadmin_maxadmins", 2, true, false, false, "How many Lambda Admins can exist at once", 0, 100, { type = "Slider", decimals = 0, name = "Max Admin Count", category = "Admins" } )
