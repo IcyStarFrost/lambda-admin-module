@@ -122,6 +122,14 @@ hook.Add( "LambdaPlayerSay", "lambdaadmins_nobadwords", function( self, text )
     end
 end )
 
+hook.Add( "PlayerNoClip", "lambdaadmins_nonoclip", function( ply, desiredstate )
+    if ply.l_isjailed then return false end
+end )
+
+hook.Add( "CanPlayerSuicide", "lambdaadmins_nokillbind", function( ply )
+    if ply.l_isjailed then return false end
+end )
+
 
 local function Initialize( self )
 
