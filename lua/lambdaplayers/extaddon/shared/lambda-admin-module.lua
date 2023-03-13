@@ -122,6 +122,10 @@ hook.Add( "LambdaPlayerSay", "lambdaadmins_nobadwords", function( self, text )
     end
 end )
 
+hook.Add( "EntityTakeDamage", "lambdaadmins_preventdamage", function( targ )
+    if targ.l_isjailed then return true end 
+end )
+
 hook.Add( "PlayerNoClip", "lambdaadmins_nonoclip", function( ply, desiredstate )
     if ply.l_isjailed then return false end
 end )
