@@ -709,7 +709,7 @@ local function Initialize( self )
             elseif random( 1, 2 ) == 1 then
                 self:KickLambda( offender, self:GetTextLine( "punishreason-" .. rule ) )
             else
-                self:BanLambda( offender, random( 60, 3000 ), self:GetTextLine( "punishreason-" .. rule ) )
+                self:BanLambda( offender, self:GetTextLine( "punishreason-" .. rule ), random( 60, 3000 ) )
             end 
         end
 
