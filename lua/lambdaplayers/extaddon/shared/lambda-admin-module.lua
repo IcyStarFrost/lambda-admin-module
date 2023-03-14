@@ -237,7 +237,7 @@ local function Initialize( self )
     
         for _, ply in ipairs( player_GetAll() ) do
             local lambdacolor = lambda:GetDisplayColor( ply )
-            LambdaPlayers_ChatAdd( ply, self:GetDisplayColor( ply ), self:Name(), normalcolor, " banned ", lambdacolor, name, normalcolor, " for ", kickbanreasoncolor, string_NiceTime( seconds ), normalcolor, " (", kickbanreasoncolor, reason, normalcolor, ")" )
+            LambdaPlayers_ChatAdd( ply, self:GetDisplayColor( ply ), self:Name(), normalcolor, " banned ", lambdacolor, name, normalcolor, " for ", kickbanreasoncolor, string_NiceTime( tonumber( seconds ) ), normalcolor, " (", kickbanreasoncolor, reason, normalcolor, ")" )
             timer_Simple( seconds, function() 
                 if table_HasValue( LambdaPlayerNames, name ) then return end
                 LambdaPlayers_ChatAdd( ply, lambdacolor, name, normalcolor, " was unbanned" )
