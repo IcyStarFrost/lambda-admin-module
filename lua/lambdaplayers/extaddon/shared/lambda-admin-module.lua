@@ -630,7 +630,7 @@ local function Initialize( self )
 
         self:LookTo( area:GetCenter() )
 
-        if offender.l_warningcount > 1 then
+        if offender.l_warningcount and offender.l_warningcount > 1 then
             self:LJailTP( offender )
         else
             self:LBring( offender )
