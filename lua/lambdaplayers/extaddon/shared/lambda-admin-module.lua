@@ -559,7 +559,6 @@ local function Initialize( self )
 
         if IsValid( offender ) and offender:IsPlayer() and GetConVar( "lambdaplayers_lambdaadmin_ignoreplayers" ):GetBool() then return end
         if !LambdaIsValid( offender ) or offender.l_admin or LambdaIsValid( offender.l_activeadmin ) or needsLOS and ( !self:CanSee( offender ) or self:GetRangeSquaredTo( offender ) > ( 2000 * 2000 ) ) then return end
-
         self.l_offendingrule = brokenrule
         self.l_offendingplayer = offender
         self.l_sawoffendingplayer = needsLOS and true or false
@@ -567,7 +566,7 @@ local function Initialize( self )
         self.l_adminallowspeak = true
         self:CancelMovement()
         self:SetState( "AdminSitState" )
-    end )
+    end, true )
 
     function self:InSit()
         
