@@ -773,6 +773,7 @@ if CLIENT then
         local lbl = LAMBDAPANELS:CreateLabel( "[Is Admin]\nIf enabled, this profile will always be a admin regardless of the admin limit", parent, TOP )
         lbl:SetWrap( true )
         lbl:SetSize( 100, 70 )
+        lbl:SetParent( parent )
         lbl:Dock( TOP ) 
         pnl:SetZPos( 100 )
     end )
