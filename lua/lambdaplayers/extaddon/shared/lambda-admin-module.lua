@@ -59,9 +59,9 @@ end
 CreateLambdaConvar( "lambdaplayers_lambdaadmin_maxadmins", 2, true, false, false, "How many Lambda Admins can exist at once", 0, 100, { type = "Slider", decimals = 0, name = "Max Admin Count", category = "Admins" } )
 CreateLambdaConvar( "lambdaplayers_lambdaadmin_adminchance", 100, true, false, false, "The chance a Lambda will spawn as a Admin", 0, 100, { type = "Slider", decimals = 0, name = "Admin Chance", category = "Admins" } )
 CreateLambdaConvar( "lambdaplayers_lambdaadmin_ignoreplayers", 0, true, false, false, "If Admins should ignore real players that are breaking the rules", 0, 1, { type = "Bool", name = "Ignore Players", category = "Admins" } )
-CreateLambdaConvar( "lambdaplayers_lambdaadmin_ruledonothurtplayers", 1, true, false, false, "If Lambdas are not allowed to hurt real players", 0, 1, { type = "Bool", name = "Rule: Do not Hurt Players", category = "Admins" } )
-CreateLambdaConvar( "lambdaplayers_lambdaadmin_rulenoswearing", 1, true, false, false, "If Lambdas are not allowed to say bad words on this minecraft christian server", 0, 1, { type = "Bool", name = "Rule: No Bad Words", category = "Admins" } )
-CreateLambdaConvar( "lambdaplayers_lambdaadmin_rulenordm", 0, true, false, false, "If Lambdas are not allowed to randomly attack people", 0, 1, { type = "Bool", name = "Rule: No RDM", category = "Admins" } )
+local donothurtplayers = CreateLambdaConvar( "lambdaplayers_lambdaadmin_ruledonothurtplayers", 1, true, false, false, "If Lambdas are not allowed to hurt real players", 0, 1, { type = "Bool", name = "Rule: Do not Hurt Players", category = "Admins" } )
+local noswearing = CreateLambdaConvar( "lambdaplayers_lambdaadmin_rulenoswearing", 1, true, false, false, "If Lambdas are not allowed to say bad words on this minecraft christian server", 0, 1, { type = "Bool", name = "Rule: No Bad Words", category = "Admins" } )
+local nordm = CreateLambdaConvar( "lambdaplayers_lambdaadmin_rulenordm", 0, true, false, false, "If Lambdas are not allowed to randomly attack people", 0, 1, { type = "Bool", name = "Rule: No RDM", category = "Admins" } )
 CreateLambdaColorConvar( "lambdaplayers_lambdaadmincolor", Color( 81, 255, 0 ), true, true, "The display color Admin Lambdas should have", { name = "Admin Display Color", category = "Admins" } )
 LambdaRegisterVoiceType( "adminscold", "lambdaplayers/vo/adminscold", "These are voicelines that play when a admin questions a rule breaker" )
 LambdaRegisterVoiceType( "sitrespond", "lambdaplayers/vo/sitrespond", "These are voicelines that play when a rule breaker responds to a admin" )
@@ -80,13 +80,13 @@ hook.Add( "PostEntityTakeDamage", "lambdaadmins_damagerules", function( ent, inf
     local attacker = info:GetAttacker()
 
     -- Do not hurt players rules
-    if ent:IsPlayer() and attacker.IsLambdaPlayer and GetConVar( "lambdaplayers_lambdaadmin_ruledonothurtplayers" ):GetBool() then
+    if ent:IsPlayer() and attacker.IsLambdaPlayer and donothurtplayers:GetBool() then
         hook.Run( "LambdaAdminsRuleViolate", { 
             offender = attacker,
             rule = "plyhurt",
             needsLOS = true
         } )
-    elseif ( ent:IsPlayer() or ent.IsLambdaPlayer ) and ( attacker:IsPlayer() or attacker.IsLambdaPlayer ) and GetConVar( "lambdaplayers_lambdaadmin_rulenordm" ):GetBool() then -- No RDM
+    elseif ( ent:IsPlayer() or ent.IsLambdaPlayer ) and ( attacker:IsPlayer() or attacker.IsLambdaPlayer ) and nordm:GetBool() then -- No RDM
         hook.Run( "LambdaAdminsRuleViolate", { 
             offender = attacker,
             rule = "rdm",
@@ -97,6 +97,7 @@ hook.Add( "PostEntityTakeDamage", "lambdaadmins_damagerules", function( ent, inf
 end )
 
 hook.Add( "PlayerSay", "lambdaadmins_nobadwords", function( ply, text )
+    if !noswearing:GetBool() then return end
     for k, v in ipairs( bannedwords ) do
         if string_find( text, v ) then
             hook.Run( "LambdaAdminsRuleViolate", { 
@@ -110,6 +111,7 @@ hook.Add( "PlayerSay", "lambdaadmins_nobadwords", function( ply, text )
 end )
 
 hook.Add( "LambdaPlayerSay", "lambdaadmins_nobadwords", function( self, text )
+    if !noswearing:GetBool() then return end
     for k, v in ipairs( bannedwords ) do
         if string_find( text, v ) then
             hook.Run( "LambdaAdminsRuleViolate", { 
@@ -734,8 +736,8 @@ local function GetDisplayColor( self, ply )
 end
 
 local function CanTarget( self, ent )
-    if self.l_admin and ent:IsPlayer() and GetConVar( "lambdaplayers_lambdaadmin_ruledonothurtplayers" ):GetBool() then return true end
-    if self.l_admin and GetConVar( "lambdaplayers_lambdaadmin_rulenordm" ):GetBool() then return true end
+    if self.l_admin and ent:IsPlayer() and donothurtplayers:GetBool() then return true end
+    if self.l_admin and nordm:GetBool() then return true end
 end
 
 local function OnRemove( self )
