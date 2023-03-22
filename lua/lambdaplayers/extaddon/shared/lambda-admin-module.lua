@@ -149,7 +149,7 @@ local function Initialize( self )
     self.l_jailedplayers = {} -- A table of tables of jailed players and the jail entities
 
 
-    if #GetLambdaAdmins() < GetConVar( "lambdaplayers_lambdaadmin_maxadmins" ):GetInt() and random( 1, 100 ) < GetConVar( "lambdaplayers_lambdaadmin_adminchance" ):GetInt() then
+    if SERVER and #GetLambdaAdmins() < GetConVar( "lambdaplayers_lambdaadmin_maxadmins" ):GetInt() and random( 1, 100 ) < GetConVar( "lambdaplayers_lambdaadmin_adminchance" ):GetInt() then
         self.l_admin = true
         self:SetNW2Bool( "lambda_isadmin", true )
     end
